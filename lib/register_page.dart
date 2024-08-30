@@ -38,11 +38,11 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Register Page'),
-        backgroundColor: Colors.pinkAccent, // สีของ AppBar
+        backgroundColor: Colors.pinkAccent,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -53,50 +53,90 @@ class _RegisterPageState extends State<RegisterPage> {
               Text(
                 'Create New Account',
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 32,
                   fontWeight: FontWeight.bold,
                   color: Colors.pinkAccent,
+                  shadows: [
+                    Shadow(
+                      blurRadius: 10.0,
+                      color: Colors.black45,
+                      offset: Offset(2.0, 2.0),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 20),
-              // เพิ่มตัวการ์ตูนที่นี่
-              Image.asset(
-                'assets/images/cat4.jpg', // เส้นทางไปยังไฟล์รูป
-                height: 250,
+              // ใช้ไอคอนแทนรูปภาพ
+              Icon(
+                Icons.account_circle,
+                color: Colors.pinkAccent,
+                size: 120,
               ),
               const SizedBox(height: 40),
-              TextField(
-                controller: _usernameController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  labelText: 'Username',
-                  prefixIcon: const Icon(Icons.person, color: Colors.pinkAccent),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.9),
+                  borderRadius: BorderRadius.circular(12.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10.0,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  labelText: 'Password',
-                  prefixIcon: const Icon(Icons.lock, color: Colors.pinkAccent),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _confirmPasswordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  labelText: 'Confirm Password',
-                  prefixIcon: const Icon(Icons.lock, color: Colors.pinkAccent),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: _usernameController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        labelText: 'Username',
+                        prefixIcon: const Icon(
+                          Icons.person,
+                          color: Colors.pinkAccent,
+                        ),
+                        filled: true,
+                        fillColor: Colors.white70,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        labelText: 'Password',
+                        prefixIcon: const Icon(
+                          Icons.lock,
+                          color: Colors.pinkAccent,
+                        ),
+                        filled: true,
+                        fillColor: Colors.white70,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _confirmPasswordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        labelText: 'Confirm Password',
+                        prefixIcon: const Icon(
+                          Icons.lock,
+                          color: Colors.pinkAccent,
+                        ),
+                        filled: true,
+                        fillColor: Colors.white70,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 20),
@@ -110,11 +150,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
-                  backgroundColor: Colors.pinkAccent, // สีของปุ่ม
+                  backgroundColor: Colors.pinkAccent,
+                  shadowColor: Colors.pinkAccent.withOpacity(0.5),
+                  elevation: 10.0,
                 ),
                 child: const Text(
                   'Register',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
               ),
               if (_errorMessage.isNotEmpty)
