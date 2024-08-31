@@ -1,5 +1,5 @@
 import 'dart:convert'; // นำเข้าฟังก์ชัน jsonEncode
-import 'package:flutterr/models/user_model.dart';
+//import 'package:flutterr/models/user_model.dart';
 import 'package:flutterr/varaible.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,8 +15,9 @@ class AuthService {
 
     final response = await http.post(
       Uri.parse("$apiURL/api/auth/login"),
-      //headers: {"Content-Type": "application/json"}, // ใช้ headers แทน header
-      body: jsonEncode( // ใช้ body แทนการพิมพ์ผิด
+      headers: {"Content-Type": "application/json"}, // ใช้ headers แทน header
+      body: jsonEncode(
+        // ใช้ body แทนการพิมพ์ผิด
         {
           "username": username,
           "password": password,
