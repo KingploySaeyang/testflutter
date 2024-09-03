@@ -3,44 +3,67 @@ import 'dart:convert'; // นำเข้าฟังก์ชัน jsonEncode
 import 'package:flutterr/varaible.dart';
 import 'package:http/http.dart' as http;
 
+class User {
+  final String username;
+  final String role; // role ของผู้ใช้
+
+  User({required this.username, required this.role});
+}
+
 class AuthService {
-  //final String apiURL; // เพิ่มตัวแปรเพื่อเก็บ URL ของ API
+  Future<User> login(String username, String password) async {
+    try {
+      final response = await http.post(
+        Uri.parse("$apiURL/api/auth/login"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(
+          {
+            "username": username,
+            "password": password,
+          },
+        ),
+      );
 
-  //AuthService(this.apiURL); // สร้างคอนสตรัคเตอร์เพื่อรับ apiURL
+      print(response.statusCode);
+      print(response.body);
 
-  Future<void> login(String username, String password) async {
-    print(apiURL);
-    print(username);
-    print(password);
+      // ตรวจสอบสถานะการตอบกลับ
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
 
+        // ตรวจสอบข้อมูลที่ตอบกลับ
+        if (data.containsKey('username') && data.containsKey('role')) {
+          return User(username: data['username'], role: data['role']);
+        } else {
+          throw Exception('Invalid response format');
+        }
+      } else {
+        throw Exception('Failed to login: ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      // จัดการข้อผิดพลาดที่เกิดขึ้น
+      throw Exception('Failed to login: $e');
+    }
+  }
+
+
+// Register method
+  Future<void> register(
+      String username, String password, String name, String role) async {
     final response = await http.post(
-      Uri.parse("$apiURL/api/auth/login"),
-      headers: {"Content-Type": "application/json"}, // ใช้ headers แทน header
-      body: jsonEncode(
-        // ใช้ body แทนการพิมพ์ผิด
-        {
-          "username": username,
-          "password": password,
-        },
-      ),
+      Uri.parse("$apiURL/api/auth/register"),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, String>{
+        'username': username,
+        'password': password,
+        'name': name,
+        'role': role,
+      }),
     );
+
     print(response.statusCode);
     print(response.body);
   }
 }
-/*
-class _LoginPageState extends State<LoginPage> {
-  void _login() async {
-    if (_formKey.currentState!.validate()) {
-      print('Username: ${_usernameController.text}');
-      print('Password: ${_passwordController.text}');
-
-      try {
-        final user await= AuthService()
-        .login(_usernameController.text, _passwordController.text);
-      } catch (e) {
-        print(e);
-      }
-    }
-  }
-}*/

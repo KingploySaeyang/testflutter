@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'register_page.dart'; // นำเข้าหน้า RegisterPage
 //import 'my_home_page.dart'; // นำเข้าหน้า MyHomePage
 import 'controllers/auth_service.dart';
+import 'AdminHomePage.dart';
+import 'UserHomePage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,17 +16,34 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  final String _errorMessage = "";
 
   void _login() async {
     if (_formKey.currentState!.validate()) {
-      print('Username : ${_usernameController.text}');
-      print('Password : ${_passwordController.text}');
       try {
-        final user = await AuthService()
-            .login(_usernameController.text, _passwordController.text);
+        final user = await AuthService().login(
+          _usernameController.text,
+          _passwordController.text,
+        );
+
+        if (user.role == 'admin') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => AdminHomePage()),
+          );
+        } else if (user.role == 'user') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => UserHomePage()),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Invalid role: ${user.role}')),
+          );
+        }
       } catch (e) {
-        print(e);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login failed: $e')),
+        );
       }
     }
   }
