@@ -1,37 +1,5 @@
 import 'package:flutter/material.dart';
 
-class AdminHomePage extends StatelessWidget {
-  const AdminHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admin Home Page'),
-        backgroundColor: Colors.pinkAccent,
-      ),
-      body: const Center(child: Text('Welcome, Admin!')),
-    );
-  }
-}
-
-class UserHomePage extends StatelessWidget {
-  const UserHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('User Home Page'),
-        backgroundColor: Colors.pinkAccent,
-      ),
-      body: const Center(child: Text('Welcome, User!')),
-    );
-  }
-}
-
-/*import 'package:flutter/material.dart';
-
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -78,4 +46,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}*/
+}
