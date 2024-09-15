@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'register_page.dart'; // นำเข้าหน้า RegisterPage
-//import 'my_home_page.dart'; // นำเข้าหน้า MyHomePage
+import 'my_home_page.dart'; // นำเข้าหน้า MyHomePage
+import 'register_page.dart';
 import 'controllers/auth_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,8 +13,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final String _errorMessage = "";
 
   void _login() async {
@@ -28,6 +29,27 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
   }
+
+  void saveData() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  await prefs.setString("userName", _usernameController.text);
+  await prefs.setString("password", _passwordController.text);
+}
+
+String? userName;
+String? password;
+
+void getData() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  setState(() {
+  userName = prefs.getString("userName");
+  password = prefs.getString("password");
+  });
+
+
+}
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +135,47 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
+  onPressed: () {
+    // ตรวจสอบค่าของทั้งชื่อผู้ใช้และรหัสผ่าน
+    if (_usernameController.text.trim().isNotEmpty && 
+        _passwordController.text.trim().isNotEmpty) {
+      // บันทึกข้อมูลใน shared preferences
+      saveData();
+      // นำทางไปยังหน้า Home
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MyHomePage(title: 'Home Page')),
+      );
+    } else {
+      // แสดง SnackBar หากชื่อผู้ใช้หรือรหัสผ่านว่าง
+      if (_usernameController.text.trim().isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("กรุณาพิมพ์ชื่อของคุณ")),
+        );
+      } 
+      if (_passwordController.text.trim().isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("กรุณาพิมพ์รหัสผ่านของคุณ")),
+        );
+      }
+    }
+  },
+  style: ElevatedButton.styleFrom(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+    backgroundColor: Colors.pink, // สีพื้นหลังของปุ่ม
+  ),
+  child: const Padding(
+    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+    child: Text(
+      'Login',
+      style: TextStyle(fontSize: 18, color: Colors.white),
+    ),
+  ),
+),
+
+                /*ElevatedButton(
                   onPressed: _login,
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
@@ -130,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                     'Login',
                     style: TextStyle(fontSize: 18, color: Colors.white),
                   ),
-                ),
+                ),*/
                 // if (_errorMessage.isNotEmpty)
                 //   Padding(
                 //     padding: const EdgeInsets.only(top: 16),
