@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/provider/user_provider.dart';
 import 'my_home_page.dart'; // นำเข้าหน้า MyHomePage
 import 'register_page.dart';
 import 'controllers/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,7 +17,6 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final String _errorMessage = "";
 
   void _login() async {
     if (_formKey.currentState!.validate()) {
@@ -24,6 +25,9 @@ class _LoginPageState extends State<LoginPage> {
       try {
         final user = await AuthService()
             .login(_usernameController.text, _passwordController.text);
+        
+        if (!mounted) return; 
+        Provider.of<UserProvider>(context, listen : false).onLogin(user);
       } catch (e) {
         print(e);
       }

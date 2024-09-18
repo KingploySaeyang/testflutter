@@ -12,7 +12,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   String? userName;
 
   void loadData() async {
@@ -26,12 +25,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     loadData();
     super.initState();
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
   }
 
   @override
@@ -143,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
+//------------หน้า AnotherPage--------------------------------------------
 class AnotherPage extends StatelessWidget {
   const AnotherPage({super.key});
   @override
@@ -158,7 +151,7 @@ class AnotherPage extends StatelessWidget {
     );
   }
 }
-
+//------------หน้า InsertPage--------------------------------------------
 class InsertPage extends StatelessWidget {
   const InsertPage({super.key});
   @override
@@ -217,7 +210,7 @@ class InsertPage extends StatelessWidget {
     );
   }
 }
-
+//------------หน้า DeletePage--------------------------------------------
 class DeletePage extends StatelessWidget {
   const DeletePage({super.key});
   @override
@@ -240,7 +233,7 @@ class DeletePage extends StatelessWidget {
     );
   }
 }
-
+//------------หน้า UpdatePage--------------------------------------------
 class UpdatePage extends StatelessWidget {
   const UpdatePage({super.key});
   @override
